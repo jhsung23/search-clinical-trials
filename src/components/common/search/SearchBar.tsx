@@ -13,15 +13,21 @@ const SearchBar = () => {
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const selectKeyword = (event: React.KeyboardEvent) => {
-    if (event.key === 'ArrowUp' && selectedIndex > -1) {
-      event.preventDefault();
+    if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
+    if (event.nativeEvent.isComposing) return;
+
+    event.preventDefault();
+    if (event.key === 'ArrowUp' && selectedIndex >= 0) {
       setSelectedIndex((prev) => prev - 1);
     }
     if (event.key === 'ArrowDown' && selectedIndex < relatedKeywords.length - 1) {
-      event.preventDefault();
       setSelectedIndex((prev) => prev + 1);
     }
-    return;
+  };
+
+  const resetSearch = () => {
+    setRelatedKeywords([]);
+    setSelectedIndex(-1);
   };
 
   const searchRelatedKeywords = useDebounce(async (targetKeyword: string) => {
@@ -43,6 +49,9 @@ const SearchBar = () => {
           onChange={(e) => {
             setInputText(e.target.value);
             searchRelatedKeywords(e.target.value);
+            if (e.target.value.length === 0) {
+              resetSearch();
+            }
           }}
           onKeyDown={selectKeyword}
         />
