@@ -8,7 +8,7 @@ interface Props {
   selectedIndex: number;
 }
 
-const RelatedKeywords = ({ keywords, selectedIndex }: Props) => {
+const RelatedKeywordList = ({ keywords, selectedIndex }: Props) => {
   return (
     <Container>
       <Span>추천 검색어</Span>
@@ -81,4 +81,4 @@ const StyledLi = styled(Li)<{ selected: boolean }>`
         `}
 `;
 
-export default RelatedKeywords;
+export default RelatedKeywordList;
