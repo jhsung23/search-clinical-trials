@@ -1,4 +1,4 @@
-# Github Issues Reader
+# Search Clinical Trials
 
 > 원티드 프론트엔드 온보딩 3주차 과제입니다.
 >
