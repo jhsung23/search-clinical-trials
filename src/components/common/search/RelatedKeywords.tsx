@@ -1,8 +1,10 @@
 import { BiSearch } from 'react-icons/bi';
 import styled, { css } from 'styled-components';
 
+import { RelatedKeyword } from '@/apis/searchTypes';
+
 interface Props {
-  keywords: string[];
+  keywords: RelatedKeyword[];
   selectedIndex: number;
 }
 
@@ -13,7 +15,7 @@ const RelatedKeywords = ({ keywords, selectedIndex }: Props) => {
       <Ul>
         {keywords.length > 0 ? (
           keywords.map((keyword, idx) => (
-            <Keyword key={idx} keyword={keyword} selected={selectedIndex === idx} />
+            <Keyword key={keyword.sickCd} keyword={keyword} selected={selectedIndex === idx} />
           ))
         ) : (
           <NoKeyword />
@@ -23,11 +25,11 @@ const RelatedKeywords = ({ keywords, selectedIndex }: Props) => {
   );
 };
 
-const Keyword = ({ keyword, selected }: { keyword: string; selected: boolean }) => {
+const Keyword = ({ keyword, selected }: { keyword: RelatedKeyword; selected: boolean }) => {
   return (
     <StyledLi selected={selected}>
       <SearchIcon />
-      {keyword}
+      {keyword.sickNm}
     </StyledLi>
   );
 };

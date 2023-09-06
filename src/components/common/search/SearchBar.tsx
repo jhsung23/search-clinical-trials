@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { BiSearch } from 'react-icons/bi';
 import styled from 'styled-components';
 
+import { getRelatedKeywords } from '@/apis/searchService';
+import { RelatedKeyword } from '@/apis/searchTypes';
 import { RelatedKeywords } from '@/components/common/search';
-
-const keywords = ['초콜릿', '사탕', '젤리', '쿠키', '휘낭시에', '마카롱', '냉면'];
+import { useDebounce } from '@/hooks';
 
 const SearchBar = () => {
   const [inputText, setInputText] = useState('');
+  const [relatedKeywords, setRelatedKeywords] = useState<RelatedKeyword[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const selectKeyword = (event: React.KeyboardEvent) => {
@@ -15,12 +17,22 @@ const SearchBar = () => {
       event.preventDefault();
       setSelectedIndex((prev) => prev - 1);
     }
-    if (event.key === 'ArrowDown' && selectedIndex < keywords.length - 1) {
+    if (event.key === 'ArrowDown' && selectedIndex < relatedKeywords.length - 1) {
       event.preventDefault();
       setSelectedIndex((prev) => prev + 1);
     }
     return;
   };
+
+  const searchRelatedKeywords = useDebounce(async (targetKeyword: string) => {
+    if (targetKeyword.length === 0) return;
+    try {
+      const response = await getRelatedKeywords(targetKeyword);
+      setRelatedKeywords(response.data);
+    } catch (e) {
+      console.error(e);
+    }
+  }, 300);
 
   return (
     <Container>
@@ -28,12 +40,17 @@ const SearchBar = () => {
         <SearchIcon />
         <Input
           value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
+          onChange={(e) => {
+            setInputText(e.target.value);
+            searchRelatedKeywords(e.target.value);
+          }}
           onKeyDown={selectKeyword}
         />
         <SearchButton>검색</SearchButton>
       </SearchInput>
-      <RelatedKeywords keywords={keywords} selectedIndex={selectedIndex} />
+      {inputText.length > 0 && (
+        <RelatedKeywords keywords={relatedKeywords} selectedIndex={selectedIndex} />
+      )}
     </Container>
   );
 };
