@@ -1,2 +1,2 @@
-export { default as RelatedKeywords } from './RelatedKeywords';
+export { default as RelatedKeywordList } from './RelatedKeywordList';
 export { default as SearchBar } from './SearchBar';
