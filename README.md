@@ -16,8 +16,6 @@
 
 ## 🔗 배포 링크
 
-> 🚨 본 배포 링크는 서버가 연결되지 않았기 때문에 동작하지 않습니다.
-
 [https://search-clinical-trials.vercel.app](https://search-clinical-trials.vercel.app)
 
 ## 🏃‍♂️ 실행 방법
