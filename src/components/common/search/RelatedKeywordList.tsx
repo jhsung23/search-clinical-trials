@@ -1,84 +1,27 @@
-import { BiSearch } from 'react-icons/bi';
-import styled, { css } from 'styled-components';
-
-import { RelatedKeyword } from '@/apis/searchTypes';
+import { RelatedKeywordType } from '@/apis/searchTypes';
+import { Keyword, NoKeyword } from '@/components/common/search';
 
 interface Props {
-  keywords: RelatedKeyword[];
-  selectedIndex: number;
+  relatedKeywords: RelatedKeywordType[];
+  selectedKeywordIndex: number;
 }
 
-const RelatedKeywordList = ({ keywords, selectedIndex }: Props) => {
+const RelatedKeywordList = ({ relatedKeywords, selectedKeywordIndex }: Props) => {
   return (
-    <Container>
-      <Span>추천 검색어</Span>
-      <Ul>
-        {keywords.length > 0 ? (
-          keywords.map((keyword, idx) => (
-            <Keyword key={keyword.sickCd} keyword={keyword} selected={selectedIndex === idx} />
-          ))
-        ) : (
-          <NoKeyword />
-        )}
-      </Ul>
-    </Container>
+    <ul>
+      {relatedKeywords.length > 0 ? (
+        relatedKeywords.map((relatedKeyword, idx) => (
+          <Keyword
+            key={relatedKeyword.sickCd}
+            relatedKeyword={relatedKeyword}
+            selected={selectedKeywordIndex === idx}
+          />
+        ))
+      ) : (
+        <NoKeyword />
+      )}
+    </ul>
   );
 };
-
-const Keyword = ({ keyword, selected }: { keyword: RelatedKeyword; selected: boolean }) => {
-  return (
-    <StyledLi selected={selected}>
-      <SearchIcon />
-      {keyword.sickNm}
-    </StyledLi>
-  );
-};
-
-const NoKeyword = () => {
-  return <Li>검색어 없음</Li>;
-};
-
-const Container = styled.section`
-  display: flex;
-  flex-direction: column;
-  width: 560px;
-  margin-top: 10px;
-  background-color: white;
-  border-radius: 20px;
-  overflow: hidden;
-`;
-
-const Ul = styled.ul``;
-
-const SearchIcon = styled(BiSearch)`
-  width: 20px;
-  height: 20px;
-`;
-
-const Span = styled.span`
-  color: #8e8e8e;
-  font-size: small;
-  padding: 1.2rem 1.2rem 0.4rem 1.2rem;
-`;
-
-const Li = styled.li`
-  display: flex;
-  align-items: center;
-  padding: 0.8rem 1rem;
-  font-size: medium;
-`;
-
-const StyledLi = styled(Li)<{ selected: boolean }>`
-  gap: 0.6rem;
-
-  ${({ selected }) =>
-    selected
-      ? css`
-          background-color: #eee;
-        `
-      : css`
-          background-color: white;
-        `}
-`;
 
 export default RelatedKeywordList;

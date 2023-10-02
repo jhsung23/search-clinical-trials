@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { getRelatedKeywords } from '@/apis/searchService';
 import { RelatedKeywordType } from '@/apis/searchTypes';
-import { RelatedKeywordList } from '@/components/common/search';
+import { RelatedKeywords } from '@/components/common/search';
 import { useDebounce, useArrowKeyIndexNavigation } from '@/hooks';
 
 const SearchBar = () => {
@@ -48,9 +48,9 @@ const SearchBar = () => {
         <SearchButton>검색</SearchButton>
       </SearchInput>
       {inputText.length > 0 && (
-        <RelatedKeywordList
+        <RelatedKeywords
           relatedKeywords={relatedKeywords}
-          selectedIndex={selectedKeywordIndex}
+          selectedKeywordIndex={selectedKeywordIndex}
         />
       )}
     </Container>
