@@ -1,6 +1,6 @@
 import CacheStorageAPI from './CacheStorageAPI';
 import axiosInstance from './axiosInstance';
-import { RelatedKeyword } from './searchTypes';
+import { RelatedKeywordType } from './searchTypes';
 
 const END_POINT = 'sick';
 const STALE_TIME = 5000;
@@ -15,7 +15,7 @@ export const getRelatedKeywords = async (targetKeyword: string) => {
   }
 
   console.info('calling api');
-  const response = await axiosInstance.get<RelatedKeyword[]>(END_POINT, {
+  const response = await axiosInstance.get<RelatedKeywordType[]>(END_POINT, {
     params: { q: targetKeyword },
   });
   cacheStorageApi.set(`${END_POINT}?q=${targetKeyword}`, response);
