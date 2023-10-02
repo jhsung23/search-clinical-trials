@@ -107,6 +107,5 @@ if (event.nativeEvent.isComposing) return;
   <img src="https://img.shields.io/badge/react-61DAFB?style=flat&logo=react&logoColor=white">
   <img src="https://img.shields.io/badge/typescript-3178C6?style=flat&logo=typescript&logoColor=white">
   <img src="https://img.shields.io/badge/styled components-DB7093?style=flat&logo=styledcomponents&logoColor=white">
-  <img src="https://img.shields.io/badge/react router-CA4245?style=flat&logo=react router&logoColor=white">
   <img src="https://img.shields.io/badge/axios-5A29E4?style=flat&logo=axios&logoColor=white">
 </div>
