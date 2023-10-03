@@ -2,19 +2,19 @@ import { BiSearch } from 'react-icons/bi';
 import styled, { css } from 'styled-components';
 
 import { Li } from './NoKeyword';
-import { RelatedKeywordType } from '@/apis/searchTypes';
+import { SuggestedKeywordType } from '@/apis/searchTypes';
 
 const Keyword = ({
-  relatedKeyword,
+  suggestedKeyword,
   selected,
 }: {
-  relatedKeyword: RelatedKeywordType;
+  suggestedKeyword: SuggestedKeywordType;
   selected: boolean;
 }) => {
   return (
     <StyledLi selected={selected}>
       <SearchIcon />
-      {relatedKeyword.sickNm}
+      {suggestedKeyword.sickNm}
     </StyledLi>
   );
 };

@@ -1,4 +1,4 @@
-export interface RelatedKeywordType {
+export interface SuggestedKeywordType {
   sickCd: string;
   sickNm: string;
 }

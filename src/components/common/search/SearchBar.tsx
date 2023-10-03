@@ -2,39 +2,24 @@ import { useState } from 'react';
 import { BiSearch } from 'react-icons/bi';
 import styled from 'styled-components';
 
-import { getRelatedKeywords } from '@/apis/searchService';
-import { RelatedKeywordType } from '@/apis/searchTypes';
-import { RelatedKeywords } from '@/components/common/search';
-import { useDebounce, useArrowKeyIndexNavigation } from '@/hooks';
+import { SearchSuggestions } from '@/components/common/search';
+import { useDebounce, useArrowKeyIndexNavigation, useSearchSuggestions } from '@/hooks';
 
 const SearchBar = () => {
   const [inputText, setInputText] = useState('');
-  const [relatedKeywords, setRelatedKeywords] = useState<RelatedKeywordType[]>([]);
+  const [suggestedKeywords, getSuggestedKeywords] = useSearchSuggestions();
   const [selectedKeywordIndex, changeSelectedKeywordIndex, resetSelectedKeywordIndex] =
-    useArrowKeyIndexNavigation(relatedKeywords.length - 1);
+    useArrowKeyIndexNavigation(suggestedKeywords.length - 1);
 
-  const resetSearch = () => {
-    setRelatedKeywords([]);
-    resetSelectedKeywordIndex();
-  };
+  const debouncedGetSuggestedKeywords = useDebounce(getSuggestedKeywords, 300);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
-    searchRelatedKeywords(e.target.value);
+    debouncedGetSuggestedKeywords(e.target.value);
     if (e.target.value.length === 0) {
-      resetSearch();
+      resetSelectedKeywordIndex();
     }
   };
-
-  const searchRelatedKeywords = useDebounce(async (targetKeyword: string) => {
-    if (targetKeyword.length === 0) return;
-    try {
-      const response = await getRelatedKeywords(targetKeyword);
-      setRelatedKeywords(response.data);
-    } catch (e) {
-      console.error(e);
-    }
-  }, 300);
 
   return (
     <Container>
@@ -48,8 +33,8 @@ const SearchBar = () => {
         <SearchButton>검색</SearchButton>
       </SearchInput>
       {inputText.length > 0 && (
-        <RelatedKeywords
-          relatedKeywords={relatedKeywords}
+        <SearchSuggestions
+          suggestedKeywords={suggestedKeywords}
           selectedKeywordIndex={selectedKeywordIndex}
         />
       )}

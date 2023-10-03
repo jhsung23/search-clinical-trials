@@ -1,19 +1,19 @@
 import styled from 'styled-components';
 
-import { RelatedKeywordType } from '@/apis/searchTypes';
-import { RelatedKeywordList } from '@/components/common/search';
+import { SuggestedKeywordType } from '@/apis/searchTypes';
+import { SuggestedKeywordList } from '@/components/common/search';
 
 interface Props {
-  relatedKeywords: RelatedKeywordType[];
+  suggestedKeywords: SuggestedKeywordType[];
   selectedKeywordIndex: number;
 }
 
-const RelatedKeywords = ({ relatedKeywords, selectedKeywordIndex }: Props) => {
+const SearchSuggestions = ({ suggestedKeywords, selectedKeywordIndex }: Props) => {
   return (
     <Container>
       <Span>추천 검색어</Span>
-      <RelatedKeywordList
-        relatedKeywords={relatedKeywords}
+      <SuggestedKeywordList
+        suggestedKeywords={suggestedKeywords}
         selectedKeywordIndex={selectedKeywordIndex}
       />
     </Container>
@@ -36,4 +36,4 @@ const Span = styled.span`
   padding: 1.2rem 1.2rem 0.4rem 1.2rem;
 `;
 
-export default RelatedKeywords;
+export default SearchSuggestions;
