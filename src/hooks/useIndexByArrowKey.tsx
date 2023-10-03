@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 const INITIAL_INDEX = -1;
 
-const useArrowKeyIndexNavigation = (maxIndex: number) => {
+const useIndexByArrowKey = (maxIndex: number) => {
   const [currentIndex, setCurrentIndex] = useState(INITIAL_INDEX);
 
   const changeCurrentIndex = (event: React.KeyboardEvent) => {
@@ -25,4 +25,4 @@ const useArrowKeyIndexNavigation = (maxIndex: number) => {
   return [currentIndex, changeCurrentIndex, resetCurrentIndex] as const;
 };
 
-export default useArrowKeyIndexNavigation;
+export default useIndexByArrowKey;

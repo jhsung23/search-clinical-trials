@@ -3,13 +3,13 @@ import { BiSearch } from 'react-icons/bi';
 import styled from 'styled-components';
 
 import { SearchSuggestions } from '@/components/common/search';
-import { useDebounce, useArrowKeyIndexNavigation, useSearchSuggestions } from '@/hooks';
+import { useDebounce, useIndexByArrowKey, useSearchSuggestions } from '@/hooks';
 
 const SearchBar = () => {
   const [inputText, setInputText] = useState('');
   const [suggestedKeywords, getSuggestedKeywords] = useSearchSuggestions();
   const [selectedKeywordIndex, changeSelectedKeywordIndex, resetSelectedKeywordIndex] =
-    useArrowKeyIndexNavigation(suggestedKeywords.length - 1);
+    useIndexByArrowKey(suggestedKeywords.length - 1);
 
   const debouncedGetSuggestedKeywords = useDebounce(getSuggestedKeywords, 300);
 
