@@ -2,43 +2,24 @@ import { useState } from 'react';
 import { BiSearch } from 'react-icons/bi';
 import styled from 'styled-components';
 
-import { getRelatedKeywords } from '@/apis/searchService';
-import { RelatedKeyword } from '@/apis/searchTypes';
-import { RelatedKeywordList } from '@/components/common/search';
-import { useDebounce } from '@/hooks';
+import { SearchSuggestions } from '@/components/common/search';
+import { useDebounce, useIndexByArrowKey, useSearchSuggestions } from '@/hooks';
 
 const SearchBar = () => {
   const [inputText, setInputText] = useState('');
-  const [relatedKeywords, setRelatedKeywords] = useState<RelatedKeyword[]>([]);
-  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [suggestedKeywords, getSuggestedKeywords] = useSearchSuggestions();
+  const [selectedKeywordIndex, changeSelectedKeywordIndex, resetSelectedKeywordIndex] =
+    useIndexByArrowKey(suggestedKeywords.length - 1);
 
-  const selectKeyword = (event: React.KeyboardEvent) => {
-    if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
-    if (event.nativeEvent.isComposing) return;
+  const debouncedGetSuggestedKeywords = useDebounce(getSuggestedKeywords, 300);
 
-    event.preventDefault();
-    if (event.key === 'ArrowUp' && selectedIndex >= 0) {
-      setSelectedIndex((prev) => prev - 1);
-    }
-    if (event.key === 'ArrowDown' && selectedIndex < relatedKeywords.length - 1) {
-      setSelectedIndex((prev) => prev + 1);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputText(e.target.value);
+    debouncedGetSuggestedKeywords(e.target.value);
+    if (e.target.value.length === 0) {
+      resetSelectedKeywordIndex();
     }
   };
-
-  const resetSearch = () => {
-    setRelatedKeywords([]);
-    setSelectedIndex(-1);
-  };
-
-  const searchRelatedKeywords = useDebounce(async (targetKeyword: string) => {
-    if (targetKeyword.length === 0) return;
-    try {
-      const response = await getRelatedKeywords(targetKeyword);
-      setRelatedKeywords(response.data);
-    } catch (e) {
-      console.error(e);
-    }
-  }, 300);
 
   return (
     <Container>
@@ -46,19 +27,16 @@ const SearchBar = () => {
         <SearchIcon />
         <Input
           value={inputText}
-          onChange={(e) => {
-            setInputText(e.target.value);
-            searchRelatedKeywords(e.target.value);
-            if (e.target.value.length === 0) {
-              resetSearch();
-            }
-          }}
-          onKeyDown={selectKeyword}
+          onChange={handleInputChange}
+          onKeyDown={changeSelectedKeywordIndex}
         />
         <SearchButton>검색</SearchButton>
       </SearchInput>
       {inputText.length > 0 && (
-        <RelatedKeywordList keywords={relatedKeywords} selectedIndex={selectedIndex} />
+        <SearchSuggestions
+          suggestedKeywords={suggestedKeywords}
+          selectedKeywordIndex={selectedKeywordIndex}
+        />
       )}
     </Container>
   );

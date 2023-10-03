@@ -1,12 +1,12 @@
-import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 
 import '@/App.css';
+import { MainPage } from './pages';
 
 function App() {
   return (
     <Main>
-      <Outlet />
+      <MainPage />
     </Main>
   );
 }
