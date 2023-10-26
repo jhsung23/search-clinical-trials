@@ -10,7 +10,7 @@ const useSearchSuggestions = () => {
     1000 * 60 * 5
   );
 
-  const getSuggestions = async (keyword: string) => {
+  const updateSuggestions = async (keyword: string) => {
     if (keyword.length === 0) {
       setSuggestions([]);
       return;
@@ -32,7 +32,7 @@ const useSearchSuggestions = () => {
     return;
   };
 
-  return [suggestions, getSuggestions] as const;
+  return [suggestions, updateSuggestions] as const;
 };
 
 export default useSearchSuggestions;
