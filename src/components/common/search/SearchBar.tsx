@@ -7,16 +7,17 @@ import { useDebounce, useIndexByArrowKey, useSearchSuggestions } from '@/hooks';
 
 const SearchBar = () => {
   const [inputText, setInputText] = useState('');
-  const [suggestedKeywords, getSuggestedKeywords] = useSearchSuggestions();
+  const [suggestedKeywords, updateSuggestedKeywords] = useSearchSuggestions();
   const [selectedKeywordIndex, changeSelectedKeywordIndex, resetSelectedKeywordIndex] =
     useIndexByArrowKey(suggestedKeywords.length - 1);
 
-  const debouncedGetSuggestedKeywords = useDebounce(getSuggestedKeywords, 300);
+  const debouncedUpdateSuggestedKeywords = useDebounce(updateSuggestedKeywords, 300);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputText(e.target.value);
-    debouncedGetSuggestedKeywords(e.target.value);
-    if (e.target.value.length === 0) {
+    const userInput = e.target.value;
+    setInputText(userInput);
+    debouncedUpdateSuggestedKeywords(userInput);
+    if (userInput.length === 0) {
       resetSelectedKeywordIndex();
     }
   };
