@@ -1,5 +1,5 @@
 import { SuggestedKeywordType } from '@/apis/searchTypes';
-import { Keyword, NoKeyword } from '@/components/common/search';
+import { Keyword } from '@/components/common/search';
 
 interface Props {
   suggestedKeywords: SuggestedKeywordType[];
