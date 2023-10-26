@@ -32,7 +32,7 @@ const SearchBar = () => {
         />
         <SearchButton>검색</SearchButton>
       </SearchInput>
-      {inputText.length > 0 && (
+      {suggestedKeywords.length > 0 && (
         <SearchSuggestions
           suggestedKeywords={suggestedKeywords}
           selectedKeywordIndex={selectedKeywordIndex}

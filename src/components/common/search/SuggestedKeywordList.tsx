@@ -9,17 +9,13 @@ interface Props {
 const SuggestedKeywordList = ({ suggestedKeywords, selectedKeywordIndex }: Props) => {
   return (
     <ul>
-      {suggestedKeywords.length > 0 ? (
-        suggestedKeywords.map((suggestedKeyword, idx) => (
-          <Keyword
-            key={suggestedKeyword.sickCd}
-            suggestedKeyword={suggestedKeyword}
-            selected={selectedKeywordIndex === idx}
-          />
-        ))
-      ) : (
-        <NoKeyword />
-      )}
+      {suggestedKeywords.map((suggestedKeyword, idx) => (
+        <Keyword
+          key={suggestedKeyword.sickCd}
+          suggestedKeyword={suggestedKeyword}
+          selected={selectedKeywordIndex === idx}
+        />
+      ))}
     </ul>
   );
 };
